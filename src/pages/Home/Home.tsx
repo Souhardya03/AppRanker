@@ -127,7 +127,7 @@ const Home = () => {
 							onHoverStart={() => setHoveredIdx(idx)}
 							onHoverEnd={() => setHoveredIdx(null)}>
 							{item.bestRating && (
-								<div className="absolute -top-3 left-3 bg-gradient-to-r from-orange-600 to-red-600 text-xs px-2 py-1 rounded-full flex items-center gap-1">
+								<div className="absolute -top-3 left-3 bg-linear-to-r from-orange-600 to-red-600 text-xs px-2 py-1 rounded-full flex items-center gap-1">
 									<span>⭐</span> Best Rating
 								</div>
 							)}
