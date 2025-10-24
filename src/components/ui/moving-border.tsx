@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   motion,
@@ -21,6 +22,7 @@ export function MovingButton({
 }: {
   borderRadius?: string;
   children: React.ReactNode;
+  
   as?: any;
   containerClassName?: string;
   borderClassName?: string;
@@ -81,7 +83,7 @@ export const MovingBorder = ({
   ry?: string;
   [key: string]: any;
 }) => {
-  const pathRef = useRef<any>();
+  const pathRef = useRef<any>(null);
   const progress = useMotionValue<number>(0);
 
   useAnimationFrame((time) => {
