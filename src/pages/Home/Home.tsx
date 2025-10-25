@@ -5,7 +5,7 @@ import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-van
 import { motion, AnimatePresence } from "framer-motion";
 import { data } from "@/data";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, X } from "lucide-react";
+import { ChevronLeft, Plus, X } from "lucide-react";
 
 const Home = () => {
 	const placeholders = [
@@ -74,10 +74,14 @@ const Home = () => {
 	const [seletedId, setSelectedId] = useState();
 	const selectedData = results.find((item) => item.id === seletedId);
 	const [moreOpen, setMoreOpen] = useState(false);
+	const [showFAQ, setShowFAQ] = useState<number>();
+	const [showGallery, setShowGallery] = useState(false);
+	const [selectedImageIdx, setSelectedImageIdx] = useState(0);
 
 	return (
 		<div className="flex flex-col min-h-[75vh]  gap-4 items-center justify-center px-4">
 			<motion.div
+				initial={{ y: 0, scale: 1 }}
 				animate={seletedId ? { y: -40, scale: 0.95 } : { y: 0, scale: 1 }}
 				exit={{ y: 0 }}
 				transition={{ duration: 0.8, ease: "easeOut" }}>
@@ -108,7 +112,7 @@ const Home = () => {
 				style={{
 					position: seletedId ? "fixed" : "static",
 					top: seletedId ? 40 : "auto",
-					left: seletedId ? "30%" : "auto",
+					left: seletedId ? "35%" : "auto",
 					zIndex: seletedId ? 50 : "auto",
 				}}>
 				<PlaceholdersAndVanishInput
@@ -137,86 +141,93 @@ const Home = () => {
 					const currentImg = screenshots[currentImageIdx[idx] || 0];
 
 					return (
-						<motion.div
-							onClick={() => setSelectedId(item.id)}
-							key={idx}
-							className="relative bg-[#131213] border border-gray-700 rounded-3xl p-2 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)] overflow-hidden cursor-pointer"
-							initial={{ opacity: 0, y: 30 }}
-							animate={
-								seletedId
-									? { opacity: 0, y: 120, display: "none" }
-									: {
-											opacity: 1,
-											y: 0,
-											width: isHovered ? 460 : hoveredIdx !== null ? 300 : 320,
-											boxShadow: isHovered
-												? "0 0 35px rgba(0, 119, 255, 0.5)"
-												: "0 0 20px rgba(255,255,255,0.1)",
-									  }
-							}
-							transition={{
-								opacity: {
-									duration: 0.8,
-									ease: "easeOut",
-									delay: idx * 0.1,
-								},
-								y: { duration: 0.3, ease: "easeOut" },
-								width: { duration: 0.3, ease: "easeOut" },
-								boxShadow: { duration: 0.3 },
-								scale: { duration: 0.3 },
-							}}
-							onHoverStart={() => setHoveredIdx(idx)}
-							onHoverEnd={() => setHoveredIdx(null)}>
-							{/* Rest of the component remains the same */}
-							{item.bestRating && (
-								<div className="absolute -top-3 left-3 bg-linear-to-r from-orange-600 to-red-600 text-xs px-2 py-1 rounded-full flex items-center gap-1">
-									<span>⭐</span> Best Rating
+						<AnimatePresence>
+							<motion.div
+								onClick={() => setSelectedId(item.id)}
+								key={idx}
+								className="relative bg-[#131213] border border-gray-700 rounded-3xl p-2 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)] overflow-hidden cursor-pointer"
+								initial={{ opacity: 0, y: 30 }}
+								animate={
+									seletedId
+										? { opacity: 0, scale: 0, display: "none" }
+										: {
+												opacity: 1,
+												scale: 1,
+												y: 0,
+												width: isHovered
+													? 460
+													: hoveredIdx !== null
+													? 300
+													: 320,
+												boxShadow: isHovered
+													? "0 0 35px rgba(0, 119, 255, 0.5)"
+													: "0 0 20px rgba(255,255,255,0.1)",
+										  }
+								}
+								transition={{
+									opacity: {
+										duration: 0.8,
+										ease: "easeOut",
+										delay: idx * 0.1,
+									},
+									y: { duration: 0.3, ease: "easeOut" },
+									width: { duration: 0.3, ease: "easeOut" },
+									boxShadow: { duration: 0.3 },
+									scale: { duration: 0.8, ease: "easeOut" },
+								}}
+								onHoverStart={() => setHoveredIdx(idx)}
+								onHoverEnd={() => setHoveredIdx(null)}>
+								{/* Rest of the component remains the same */}
+								{item.bestRating && (
+									<div className="absolute border -top-3 left-3 bg-linear-to-r from-orange-600 to-red-600 text-xs px-2 py-1 rounded-full flex items-center gap-1">
+										<span>⭐</span> Best Rating
+									</div>
+								)}
+
+								<div className="relative w-full h-40 rounded-xl bg-black overflow-hidden">
+									<AnimatePresence mode="wait">
+										<motion.img
+											key={currentImg}
+											src={currentImg}
+											alt={item.name}
+											className="absolute inset-0 w-full h-full object-cover"
+											initial={{ opacity: 0, scale: 0.95 }}
+											animate={{ opacity: 1, scale: 1 }}
+											exit={{ opacity: 0, scale: 0.95 }}
+											transition={{ duration: 0.5 }}
+											whileHover={{ scale: 1.05 }}
+										/>
+									</AnimatePresence>
 								</div>
-							)}
 
-							<div className="relative w-full h-40 rounded-xl bg-black overflow-hidden">
-								<AnimatePresence mode="wait">
-									<motion.img
-										key={currentImg}
-										src={currentImg}
-										alt={item.name}
-										className="absolute inset-0 w-full h-full object-cover"
-										initial={{ opacity: 0, scale: 0.95 }}
-										animate={{ opacity: 1, scale: 1 }}
-										exit={{ opacity: 0, scale: 0.95 }}
-										transition={{ duration: 0.5 }}
-										whileHover={{ scale: 1.05 }}
-									/>
-								</AnimatePresence>
-							</div>
-
-							<div className="flex p-2 justify-between items-center">
-								<div className="flex gap-3 items-center justify-center">
-									<img
-										src={item.logo}
-										alt=""
-										width={36}
-										height={24}
-									/>
-									<div>
-										<p className="font-semibold">{item.name}</p>
-										<p className="text-sm line-clamp-1 text-gray-400">
-											{item.short_description || "AI App"}
+								<div className="flex p-2 justify-between items-center">
+									<div className="flex gap-3 items-center justify-center">
+										<img
+											src={item.logo}
+											alt=""
+											width={36}
+											height={24}
+										/>
+										<div>
+											<p className="font-semibold">{item.name}</p>
+											<p className="text-sm line-clamp-1 text-gray-400">
+												{item.short_description || "AI App"}
+											</p>
+										</div>
+									</div>
+									<div className="text-right">
+										<p className="text-gray-400 line-through text-sm">
+											{item.pricing[1]?.price || "10"}
 										</p>
+										<div className="flex items-center justify-end">
+											<p className="text-green-400 w-9 h-9 border-gray-600 flex items-center justify-center rounded-full border font-semibold">
+												{item.pricing[0]?.price || "0"}
+											</p>
+										</div>
 									</div>
 								</div>
-								<div className="text-right">
-									<p className="text-gray-400 line-through text-sm">
-										{item.pricing[1]?.price || "10"}
-									</p>
-									<div className="flex items-center justify-end">
-										<p className="text-green-400 w-9 h-9 border-gray-600 flex items-center justify-center rounded-full border font-semibold">
-											{item.pricing[0]?.price || "0"}
-										</p>
-									</div>
-								</div>
-							</div>
-						</motion.div>
+							</motion.div>
+						</AnimatePresence>
 					);
 				})}
 			</motion.div>
@@ -345,10 +356,14 @@ const Home = () => {
 							</div>
 						</div>
 						<div className="flex pt-2 items-center justify-between">
-							<Button className="text-white/80">Gallery</Button>
 							<Button
-								onClick={() => setMoreOpen(true)}
-								className="text-white/80">
+								onClick={() => setShowGallery(!showGallery)}
+								className="text-white/80 w-24 cursor-pointer hover:scale-110 duration-200 h-10">
+								Gallery
+							</Button>
+							<Button
+								onClick={() => setMoreOpen(!moreOpen)}
+								className="text-white/80 cursor-pointer hover:scale-110 duration-200 w-24 h-10">
 								More
 							</Button>
 						</div>
@@ -361,7 +376,7 @@ const Home = () => {
 			<AnimatePresence>
 				{moreOpen && selectedData && (
 					<motion.div
-						className="fixed h-[78vh] overflow-auto bottom-0 w-full max-w-[28%] right-0 top-24 -translate-x-10 transform  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
+						className="fixed h-[78vh] overflow-auto bottom-0 w-full max-w-[30%] right-0 top-24 -translate-x-10 transform  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
 						initial={{ opacity: 0, x: 110 }}
 						animate={{ opacity: 1, x: 0 }}
 						exit={{ opacity: 0, x: 800 }}
@@ -375,6 +390,96 @@ const Home = () => {
 							</Button>
 						</div>
 						<p className="text-white/80">{selectedData.description}</p>
+						<div>
+							<h2 className="font-semibold my-6 text-white/40 text-xl">FAQ</h2>
+							<ul className="">
+								{selectedData.faqs?.map((faq: any, idx: number) => (
+									<motion.li
+										key={idx}
+										layout
+										className="mb-6">
+										<div
+											onClick={() =>
+												setShowFAQ((prev) => (prev === idx ? undefined : idx))
+											}
+											className="flex items-center justify-between cursor-pointer">
+											<motion.p
+												layout
+												className="font-semibold text-white/80">
+												{faq.question}
+											</motion.p>
+											<motion.span
+												animate={{ rotate: showFAQ === idx ? 45 : 0 }}
+												transition={{
+													type: "spring",
+													stiffness: 400,
+													damping: 30,
+												}}>
+												<Plus size={16} />
+											</motion.span>
+										</div>
+
+										<AnimatePresence initial={false}>
+											{showFAQ === idx && (
+												<motion.p
+													key="answer"
+													initial={{ opacity: 0, height: 0 }}
+													animate={{ opacity: 1, height: "auto" }}
+													exit={{ opacity: 0, height: 0 }}
+													transition={{ duration: 0.25 }}
+													className="text-white/80 overflow-hidden mt-2">
+													{faq.answer}
+												</motion.p>
+											)}
+										</AnimatePresence>
+									</motion.li>
+								))}
+							</ul>
+						</div>
+						{selectedData.version_info && <h2></h2>}
+					</motion.div>
+				)}
+			</AnimatePresence>
+			<AnimatePresence>
+				{showGallery && selectedData && (
+					<motion.div
+						className="fixed h-[78vh] overflow-auto bottom-0 w-full max-w-[30%] left-0 top-24 translate-x-10 transform  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
+						initial={{ opacity: 0, x: -110 }}
+						animate={{ opacity: 1, x: 0 }}
+						exit={{ opacity: 0, x: -800 }}
+						transition={{ duration: 0.8, ease: "easeOut" }}>
+						<div className="flex justify-between items-center mb-4">
+							<h2 className="font-semibold text-white/80 w-full text-center text-xl">
+								Screenshot Gallery
+							</h2>
+							<Button
+								className="border border-gray-500"
+								onClick={() => setShowGallery(false)}>
+								<X size={18} />
+							</Button>
+						</div>
+						<div className="h-[40vh] border rounded-3xl overflow-hidden border-white/50">
+							<img
+								src={selectedData.screenshots[selectedImageIdx]}
+								alt=""
+								className="w-full h-full object-contain rounded-3xl"
+							/>
+						</div>
+						<div className="grid gap-1 grid-cols-4">
+							{selectedData.screenshots.map((_: any, idx: number) => (
+								<img
+									key={idx}
+									src={selectedData.screenshots[idx]}
+									alt=""
+									className={`w-full h-20 object-contain rounded-lg cursor-pointer border-2 ${
+										selectedImageIdx === idx
+											? "border-blue-500"
+											: "border-white/20"
+									} mt-4`}
+									onClick={() => setSelectedImageIdx(idx)}
+								/>
+							))}
+						</div>
 					</motion.div>
 				)}
 			</AnimatePresence>

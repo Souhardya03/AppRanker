@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { Plus, WandSparkles } from "lucide-react";
 import { MovingButton } from "./ui/moving-border";
 import { Button } from "./ui/button";
-
+import { motion } from "framer-motion";
 const Navbar = () => {
 	const lineRef = useRef<SVGRectElement | null>(null);
 	const exploreBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -95,6 +95,63 @@ const Navbar = () => {
 						Explore <WandSparkles size={18} />
 					</MovingButton>
 				</div>
+				<div>
+					<motion.div
+						animate="idle"
+						whileHover="hover"
+						whileTap="tap"
+						variants={{
+							idle: {
+								boxShadow: [
+									"0 0 0 rgba(79,149,218,0)",
+									"0 0 20px rgba(79,149,218,0.4)",
+									"0 0 0 rgba(79,149,218,0)",
+								],
+								scale: 1,
+								transition: {
+									boxShadow: {
+										duration: 2.5,
+										repeat: Infinity,
+										ease: "easeInOut",
+									},
+									scale: { duration: 0.3 },
+								},
+							},
+							hover: {
+								boxShadow: [
+									"0 0 30px rgba(79,149,218,0.8), 0 0 60px rgba(50,234,108,0.5)",
+									"0 0 35px rgba(79,149,218,1), 0 0 70px rgba(50,234,108,0.6)",
+									"0 0 30px rgba(79,149,218,0.8), 0 0 60px rgba(50,234,108,0.5)",
+								],
+								scale: 1.05,
+								y: -2,
+								transition: {
+									boxShadow: {
+										duration: 1.5,
+										repeat: Infinity,
+										ease: "easeInOut",
+									},
+									scale: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] },
+									y: { duration: 0.4, ease: "easeOut" },
+								},
+							},
+							tap: {
+								scale: 0.98,
+								transition: { duration: 0.1 },
+							},
+						}}
+						className="rounded-full">
+						<Button className="h-12 w-28 text-lg relative overflow-hidden group">
+							<motion.span
+								className="absolute inset-0 bg-linear-to-r from-blue-400/20 via-green-400/20 to-blue-400/20"
+								initial={{ x: "-100%" }}
+								whileHover={{ x: "100%" }}
+								transition={{ duration: 0.8, ease: "easeInOut" }}
+							/>
+							<span className="relative z-10">Pricing</span>
+						</Button>
+					</motion.div>
+				</div>
 
 				{/* Plus Button */}
 				<div className="inline-block">
@@ -143,7 +200,9 @@ const Navbar = () => {
 				</div>
 				{/* Profile Image */}
 				<img
-					src={"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face"}
+					src={
+						"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face"
+					}
 					alt="Profile"
 					className="w-10 h-10 rounded-full object-cover "
 				/>

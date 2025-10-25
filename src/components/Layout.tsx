@@ -7,7 +7,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
-		<div className="min-h-screen text-white relative">
+		<div className="min-h-screen no-scrollbar overflow-hidden text-white relative">
 			{/* Background Wrapper */}
 			<div className="fixed inset-0 overflow-hidden pointer-events-none">
 				{/* Gradient Base */}

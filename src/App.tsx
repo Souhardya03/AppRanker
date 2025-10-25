@@ -4,7 +4,7 @@ import Home from "./pages/Home/Home";
 import Layout from "./components/Layout";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import Explore from "./pages/Explore/Explore";
 function App() {
 	return (
 		<Layout>
@@ -13,6 +13,10 @@ function App() {
 				<Route
 					index
 					element={<Home />}
+				/>
+				<Route
+					path="/explore"
+					element={<Explore />}
 				/>
 			</Routes>
 			<Footer/>
