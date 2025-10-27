@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Explore from "./pages/Explore/Explore";
+import Compare from "./pages/Compare/Compare";
 function App() {
 	return (
 		<Layout>
@@ -17,6 +18,10 @@ function App() {
 				<Route
 					path="/explore"
 					element={<Explore />}
+				/>
+				<Route
+					path="/compare"
+					element={<Compare />}
 				/>
 			</Routes>
 			<Footer/>

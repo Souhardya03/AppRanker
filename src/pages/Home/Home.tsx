@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { data } from "@/data";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Plus, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 	const placeholders = [
@@ -77,23 +78,24 @@ const Home = () => {
 	const [showFAQ, setShowFAQ] = useState<number>();
 	const [showGallery, setShowGallery] = useState(false);
 	const [selectedImageIdx, setSelectedImageIdx] = useState(0);
-
+	const navigate = useNavigate();
 	return (
 		<div className="flex flex-col min-h-[75vh]  gap-4 items-center justify-center px-4">
 			<motion.div
 				initial={{ y: 0, scale: 1 }}
 				animate={seletedId ? { y: -40, scale: 0.95 } : { y: 0, scale: 1 }}
 				exit={{ y: 0 }}
+				className=""
 				transition={{ duration: 0.8, ease: "easeOut" }}>
 				<img
 					src="/images/logo.png"
 					alt="Logo"
-					className={`${
+					className={` ${
 						seletedId ? "hidden" : "block"
 					} transition-all duration-300`}
 				/>
 				<p
-					className={`text-gray-400 text-sm mb-4 ${
+					className={`text-gray-400 text-center text-sm  ${
 						seletedId ? "hidden" : "block"
 					} transition-all duration-300`}>
 					Apps For Everything. Prices For Everyone
@@ -108,7 +110,7 @@ const Home = () => {
 						: { opacity: 1, y: 0, scale: 1 }
 				}
 				transition={{ duration: 0.8, ease: "easeOut" }}
-				className="w-full max-w-3xl"
+				className="w-full max-w-3xl "
 				style={{
 					position: seletedId ? "fixed" : "static",
 					top: seletedId ? 40 : "auto",
@@ -124,7 +126,7 @@ const Home = () => {
 			</motion.div>
 
 			<motion.div
-				className="flex gap-4 mt-6 justify-center flex-wrap"
+				className="flex gap-4 mt-2 justify-center flex-wrap"
 				initial="hidden"
 				animate="visible"
 				variants={{
@@ -145,7 +147,7 @@ const Home = () => {
 							<motion.div
 								onClick={() => setSelectedId(item.id)}
 								key={idx}
-								className="relative bg-[#131213] border border-gray-700 rounded-3xl p-2 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)] overflow-hidden cursor-pointer"
+								className="relative bg-[#101010] border border-gray-700 rounded-3xl p-2 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)] overflow-hidden cursor-pointer"
 								initial={{ opacity: 0, y: 30 }}
 								animate={
 									seletedId
@@ -184,13 +186,13 @@ const Home = () => {
 									</div>
 								)}
 
-								<div className="relative w-full h-40 rounded-xl bg-black overflow-hidden">
+								<div className="relative shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full h-40 rounded-xl bg-black overflow-hidden">
 									<AnimatePresence mode="wait">
 										<motion.img
 											key={currentImg}
 											src={currentImg}
 											alt={item.name}
-											className="absolute inset-0 w-full h-full object-cover"
+											className="absolute shadow-[0_0_20px_rgba(255,255,255,0.1)] rounded-xl inset-0 w-full h-full object-cover"
 											initial={{ opacity: 0, scale: 0.95 }}
 											animate={{ opacity: 1, scale: 1 }}
 											exit={{ opacity: 0, scale: 0.95 }}
@@ -209,7 +211,70 @@ const Home = () => {
 											height={24}
 										/>
 										<div>
-											<p className="font-semibold">{item.name}</p>
+											<div className="mb-2">
+												<p className="font-semibold">{item.name}</p>
+												<div className=" flex items-center gap-2 text-white/60">
+													<div className="flex items-center gap-1">
+														{Array.from({ length: 5 }).map((_, i) => {
+															const pos = i + 1;
+															const full = item.rating >= pos;
+															const half = !full && item.rating >= pos - 0.5;
+															const gradId = `halfGrad-${i}`;
+															return (
+																<span
+																	key={i}
+																	className="w-3 h-3 inline-block">
+																	{full ? (
+																		<svg
+																			viewBox="0 0 24 24"
+																			className="w-3 h-3 text-yellow-400"
+																			fill="currentColor"
+																			aria-hidden>
+																			<path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.168L12 18.896l-7.336 3.866 1.402-8.168L.132 9.21l8.2-1.192L12 .587z" />
+																		</svg>
+																	) : half ? (
+																		<svg
+																			viewBox="0 0 24 24"
+																			className="w-3 h-3 text-yellow-400"
+																			aria-hidden>
+																			<defs>
+																				<linearGradient id={gradId}>
+																					<stop
+																						offset="50%"
+																						stopColor="currentColor"
+																					/>
+																					<stop
+																						offset="50%"
+																						stopColor="transparent"
+																					/>
+																				</linearGradient>
+																			</defs>
+																			<path
+																				d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.168L12 18.896l-7.336 3.866 1.402-8.168L.132 9.21l8.2-1.192L12 .587z"
+																				fill={`url(#${gradId})`}
+																				stroke="currentColor"
+																				strokeWidth="0.5"
+																			/>
+																		</svg>
+																	) : (
+																		<svg
+																			viewBox="0 0 24 24"
+																			className="w-3 h-3 text-gray-600"
+																			fill="none"
+																			stroke="currentColor"
+																			aria-hidden>
+																			<path
+																				d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.168L12 18.896l-7.336 3.866 1.402-8.168L.132 9.21l8.2-1.192L12 .587z"
+																				strokeWidth="0.8"
+																			/>
+																		</svg>
+																	)}
+																</span>
+															);
+														})}
+													</div>
+												</div>
+											</div>
 											<p className="text-sm line-clamp-1 text-gray-400">
 												{item.short_description || "AI App"}
 											</p>
@@ -239,6 +304,7 @@ const Home = () => {
 					exit={{ y: 120, opacity: 0 }}
 					transition={{ duration: 0.4, ease: "easeOut" }}>
 					<motion.button
+					onClick={()=>navigate('/compare')}
 						whileHover={{ scale: 1.05 }}
 						className="h-12 bg-[#155dfc] cursor-pointer hover:bg-[#0d51e2] mt-4 px-6 rounded-lg text-white font-semibold">
 						Compare These Options

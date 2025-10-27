@@ -4,6 +4,7 @@ import { Plus, WandSparkles } from "lucide-react";
 import { MovingButton } from "./ui/moving-border";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 const Navbar = () => {
 	const lineRef = useRef<SVGRectElement | null>(null);
 	const exploreBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -88,13 +89,13 @@ const Navbar = () => {
 				</div>
 
 				{/* Explore Button */}
-				<div>
+				<Link to="/explore">
 					<MovingButton
 						borderRadius="1.9rem"
 						className="bg-[#131213]  flex items-center justify-center gap-4 text-lg text-white border-slate-800">
 						Explore <WandSparkles size={18} />
 					</MovingButton>
-				</div>
+				</Link>
 				<div>
 					<motion.div
 						animate="idle"
