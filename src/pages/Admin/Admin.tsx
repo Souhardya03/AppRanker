@@ -35,6 +35,7 @@ interface AppSubmissionData {
   category: string;
   count: number;
   color: string;
+  [key: string]: string | number; // Add index signature
 }
 
 interface PendingApprovalData {
