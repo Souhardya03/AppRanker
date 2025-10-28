@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { Plus, WandSparkles } from "lucide-react";
+import { Bell, Plus, User, WandSparkles } from "lucide-react";
 import { MovingButton } from "./ui/moving-border";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { CountingNumber } from "./ui/shadcn-io/counting-number";
 const Navbar = () => {
 	const lineRef = useRef<SVGRectElement | null>(null);
 	const exploreBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -71,28 +72,22 @@ const Navbar = () => {
 		};
 	}, []);
 
-	const strokeWidth = 3;
-	const size = 30;
-	const percentage = 87; // Example percentage
-	const radius = (size - strokeWidth) / 2;
-	const circumference = 2 * Math.PI * radius;
-	const offset = circumference - (percentage / 100) * circumference;
 	return (
 		<nav className="flex p-6 items-center justify-between">
 			<div className="flex items-center gap-4">
 				{/* Logo */}
-				<div className="w-36">
+				<Link to={"/"} className="w-48">
 					<img
 						src="/images/logo.png"
 						alt=""
 					/>
-				</div>
+				</Link>
 
 				{/* Explore Button */}
 				<Link to="/explore">
 					<MovingButton
 						borderRadius="1.9rem"
-						className="bg-[#131213]  flex items-center justify-center gap-4 text-lg text-white border-slate-800">
+						className="bg-[#131213] cursor-pointer flex items-center justify-center gap-4 text-lg text-white border-slate-800">
 						Explore <WandSparkles size={18} />
 					</MovingButton>
 				</Link>
@@ -164,49 +159,27 @@ const Navbar = () => {
 					</Button>
 				</div>
 			</div>
-			<div className="flex  items-center bg-[#131313] p-2 rounded-full gap-2">
-				{/* Circle with percentage */}
-				<div className="flex items-center gap-2 border rounded-full p-1 px-2 border-gray-600">
-					<div
-						className="relative flex  rotate-180 items-center justify-center"
-						style={{ width: size, height: size }}>
-						<svg
-							width={size}
-							height={size}>
-							<circle
-								cx={size / 2}
-								cy={size / 2}
-								r={radius}
-								stroke="#47505e"
-								strokeWidth={strokeWidth}
-								fill="none"
-							/>
-							<circle
-								cx={size / 2}
-								cy={size / 2}
-								r={radius}
-								stroke="#03ba4c"
-								strokeWidth={strokeWidth}
-								fill="none"
-								strokeDasharray={circumference}
-								strokeDashoffset={offset}
-								strokeLinecap="round"
-								style={{ transition: "stroke-dashoffset 1s ease" }}
-							/>
-						</svg>
-					</div>
+			<div className="flex  items-center  rounded-full gap-2">
+				<Link to={"/dashboard"} className="flex items-center gap-2 bg-teal-900/30 border border-teal-700/50 rounded-full px-4 py-1.5">
+					<span className="text-teal-400 text-2xl font-bold">
+						<CountingNumber
+							number={50}
+							inView={true}
+							transition={{ stiffness: 100, damping: 30 }}
+						/>
+					</span>
+					<span className="text-teal-300 text-sm">Impact</span>
+				</Link>
 
-					{/* Label */}
-					<span className="text-white font-medium">87% impact</span>
+				{/* Bell Icon */}
+				<div className="bg-teal-900/30 border border-teal-700/50 rounded-full p-2.5">
+					<Bell className="w-5 h-5 text-teal-300" />
 				</div>
-				{/* Profile Image */}
-				<img
-					src={
-						"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face"
-					}
-					alt="Profile"
-					className="w-10 h-10 rounded-full object-cover "
-				/>
+
+				{/* User Icon */}
+				<div className="bg-teal-500 rounded-full p-2.5">
+					<User className="w-5 h-5 text-white" />
+				</div>
 			</div>
 		</nav>
 	);
