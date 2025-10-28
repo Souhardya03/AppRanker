@@ -73,7 +73,7 @@ const Navbar = () => {
 	}, []);
 
 	return (
-		<nav className="flex p-6 items-center justify-between">
+		<nav className="flex fixed w-full z-30 p-6 items-center justify-between">
 			<div className="flex items-center gap-4">
 				{/* Logo */}
 				<Link to={"/"} className="w-48">

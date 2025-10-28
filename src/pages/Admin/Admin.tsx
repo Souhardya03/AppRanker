@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
   const totalSubmissions = appSubmissionData.reduce((acc, curr) => acc + curr.count, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className=" pt-24">
       {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -118,11 +118,8 @@ const Dashboard: React.FC = () => {
       </button>
 
       {/* Sidebar */}
-      <div className={`fixed left-0 top-0 h-full w-48 bg-slate-900/50 border-r border-slate-700/50 backdrop-blur-sm transition-transform duration-300 z-40 overflow-y-auto ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        {/* Logo/Header Area */}
-        <div className="p-6 border-b border-slate-700/50">
-          <div className="w-1 h-16 bg-cyan-400 rounded-full mx-auto"></div>
-        </div>
+      <div className={`fixed left-0 h-full no-scrollbar  w-56 bg-slate-900/50 border-r border-slate-700/50 backdrop-blur-sm transition-transform duration-300 z-40 overflow-y-auto ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+       
 
         {/* Main Section */}
         <div className="px-4 py-6">
@@ -224,7 +221,7 @@ const Dashboard: React.FC = () => {
       )}
 
       {/* Main Content */}
-      <div className="lg:ml-48 p-4 md:p-6 lg:p-8">
+      <div className="lg:ml-56  p-4 md:p-6 lg:p-8">
         {/* Date Range Selector */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -455,7 +452,7 @@ const Dashboard: React.FC = () => {
               <Clock size={20} className="text-amber-400" />
             </div>
             <div className="text-2xl md:text-3xl font-bold text-white mb-4">{pendingApprovalData.length}</div>
-            <div className="space-y-2 max-h-[150px] overflow-y-auto">
+            <div className="space-y-2 max-h-[150px] overflow-y-auto no-scrollbar">
               {pendingApprovalData.map((item, index) => (
                 <div key={index} className="flex items-center justify-between p-2 bg-slate-800/30 rounded-lg">
                   <div className="flex-1 min-w-0">
