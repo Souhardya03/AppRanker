@@ -80,7 +80,7 @@ const Home = () => {
 	const [selectedImageIdx, setSelectedImageIdx] = useState(0);
 	const navigate = useNavigate();
 	return (
-		<div className="flex flex-col min-h-[75vh]  gap-4 items-center justify-center px-4">
+		<div className="flex flex-col min-h-[88vh]  gap-4 items-center justify-center px-4 pt-24">
 			<motion.div
 				initial={{ y: 0, scale: 1 }}
 				animate={seletedId ? { y: -40, scale: 0.95 } : { y: 0, scale: 1 }}

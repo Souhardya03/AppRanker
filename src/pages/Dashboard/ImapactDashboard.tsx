@@ -35,7 +35,7 @@ export default function ImpactDashboard() {
 			variants={containerVariants}
 			initial="hidden"
 			animate="show"
-			className="px-6 overflow-hidden">
+			className="px-6 pt-24 overflow-hidden">
 			{/* Header */}
 			<div className="flex items-center justify-between mb-8">
 				<h1 className="text-2xl font-bold text-white text-center flex-1">
