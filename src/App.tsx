@@ -14,18 +14,37 @@ function App() {
 	const location = useLocation();
 
 	const hideFooterRoutes = ["/about"];
+	const hideNavbarRoutes = ["/about"];
 
 	return (
 		<Layout>
-			<Navbar />
+			{!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
 			<Routes>
-				<Route index element={<Home />} />
-				<Route path="/explore" element={<Explore />} />
-				<Route path="/compare" element={<Compare />} />
-				<Route path="/dashboard" element={<ImpactDashboard />} />
-				<Route path="/admin" element={<Dashboard />} />
-				<Route path="/about" element={<About />} />
+				<Route
+					index
+					element={<Home />}
+				/>
+				<Route
+					path="/explore"
+					element={<Explore />}
+				/>
+				<Route
+					path="/compare"
+					element={<Compare />}
+				/>
+				<Route
+					path="/dashboard"
+					element={<ImpactDashboard />}
+				/>
+				<Route
+					path="/admin"
+					element={<Dashboard />}
+				/>
+				<Route
+					path="/about"
+					element={<About />}
+				/>
 			</Routes>
 
 			{!hideFooterRoutes.includes(location.pathname) && <Footer />}
