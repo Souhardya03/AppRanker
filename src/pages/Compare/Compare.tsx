@@ -110,7 +110,7 @@ const Compare: React.FC = () => {
 			<div className="flex items-center justify-center">
 				<motion.div
 					ref={scrollContainerRef}
-					className="flex gap-6 py-2 mt-14 overflow-x-auto snap-x snap-mandatory scroll-smooth px-4"
+					className="flex lg:gap-6 md:gap-2 gap-4 py-2 mt-14 md:overflow-x-hidden overflow-x-auto snap-x snap-mandatory scroll-smooth px-4"
 					variants={containerVariants}
 					initial="hidden"
 					animate="visible"
@@ -118,7 +118,7 @@ const Compare: React.FC = () => {
 					{[0, 1, 2].map((index: number) => (
 						<motion.div
 							key={index}
-							className="bg-[#131313] rounded-3xl p-4 snap-center shrink-0 w-[320px] md:w-[350px]"
+							className="bg-[#131313] rounded-3xl p-4 snap-center shrink-0 md:shrink w-[320px] md:w-[400px] lg:w-[350px]"
 							variants={cardVariants}
 							whileHover={{
 								y: -8,

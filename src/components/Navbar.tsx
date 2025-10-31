@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import {
 	Bell,
@@ -100,9 +100,32 @@ const Navbar = () => {
 	const location = useLocation();
 
 	const isActive = (path: string) => location.pathname === path;
+	const [isScrollingUp, setIsScrollingUp] = useState(false);
+	const lastScrollY = useRef(0);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const currentScrollY = window.scrollY;
+			if (currentScrollY > lastScrollY.current) {
+				setIsScrollingUp(true);
+			} else {
+				setIsScrollingUp(false);
+			}
+			lastScrollY.current = currentScrollY;
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, []);
 
 	return (
-		<nav className="flex fixed w-full z-999 p-6 items-center justify-between">
+		<nav
+			className={`flex fixed w-full z-999 px-6 py-5 items-center justify-between transition-all duration-500
+        ${
+					isScrollingUp
+						? "backdrop-blur-md bg-slate-800/70 "
+						: "bg-transparent backdrop-blur-0"
+				}`}>
 			<div className="flex items-center gap-4">
 				{/* Logo */}
 				<Link
@@ -183,7 +206,9 @@ const Navbar = () => {
 				</div>
 
 				{/* Plus Button */}
-				<Link to={"/about"} className="md:inline-block hidden">
+				<Link
+					to={"/about"}
+					className="md:inline-block hidden">
 					<Button className="h-12 w-12 rounded-full transition-transform duration-200">
 						<Plus
 							color="#32ea6c"
@@ -276,7 +301,7 @@ const Navbar = () => {
 			</div>
 			<Sheet>
 				<SheetTrigger asChild>
-					<div className="bg-teal-900/30 border md:hidden block border-teal-700/50 rounded-full p-2.5">
+					<div className={`bg-teal-900/30 border md:hidden block border-teal-700/50 rounded-full p-2.5 ${isActive("/admin")?"hidden":"block"}`}>
 						<Menu className="w-5 h-5 text-teal-300" />
 					</div>
 				</SheetTrigger>
@@ -299,9 +324,7 @@ const Navbar = () => {
 						<Link
 							to={"/dashboard"}
 							className="flex items-center gap-2 bg-teal-900/30 border border-teal-700/50 rounded-full px-4 py-1.5 mx-3">
-							<span className="text-teal-400 text-2xl font-bold">
-								50
-							</span>
+							<span className="text-teal-400 text-2xl font-bold">50</span>
 							<span className="text-teal-300 text-sm">Impact</span>
 						</Link>
 
@@ -372,7 +395,6 @@ const Navbar = () => {
 							<LogOut className="w-4 h-4 text-white " />
 							Logout
 						</Button>
-						
 					</SheetFooter>
 				</SheetContent>
 			</Sheet>

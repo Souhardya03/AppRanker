@@ -38,6 +38,7 @@ import {
 	Check,
 	Settings,
 	GripVertical,
+	Home,
 	// UserCircle2,
 	// Sparkles,
 	// Plus,
@@ -52,6 +53,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Link } from "react-router-dom";
 
 interface RevenueData {
 	month: string;
@@ -378,15 +380,19 @@ const Dashboard: React.FC = () => {
 	return (
 		<div className=" pt-24">
 			{/* Mobile Menu Button */}
+			<Link to={"/"}
+				className="lg:hidden fixed top-2 right-20 z-999 bg-teal-900/30 border md:hidden block border-teal-700/50  p-2.5 rounded-lg">
+				<Home size={24} />
+			</Link>
 			<button
 				onClick={() => setSidebarOpen(!sidebarOpen)}
-				className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-slate-800 rounded-lg">
+				className="lg:hidden fixed top-2 right-4 md:right-1/4 md:-translate-x-8 md:rounded-full md:top-5 z-999 bg-teal-900/30 border  block border-teal-700/50  p-2.5 rounded-lg">
 				{sidebarOpen ? <X size={24} /> : <Menu size={24} />}
 			</button>
 
 			{/* Sidebar */}
 			<div
-				className={`fixed left-0 h-full no-scrollbar  w-56 bg-slate-900/50 border-r border-slate-700/50 backdrop-blur-sm transition-transform duration-300 z-40 overflow-y-auto ${
+				className={`fixed left-0 h-full no-scrollbar top-14 w-56 bg-slate-900/50 border-r border-slate-700/50 backdrop-blur-sm transition-transform duration-300 z-40 overflow-y-auto ${
 					sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
 				}`}>
 				{/* Main Section */}
@@ -929,7 +935,7 @@ const Dashboard: React.FC = () => {
 						{/* Stats Cards */}
 						<motion.div
 							variants={containerAppPendingVariants}
-							className="grid grid-cols-4 gap-4 mb-8">
+							className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 							{/* Approved This Month */}
 							<motion.div
 								variants={cardAppPendingVariants}
@@ -1096,16 +1102,19 @@ const Dashboard: React.FC = () => {
 				</div>
 			)}
 			{currView === "compare-apps" && (
-				<div className="lg:ml-56  p-4 md:p-6 lg:p-8">
+				<div className="lg:ml-56 p-3 sm:p-4 md:p-6 lg:p-8">
 					<motion.div
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
-						className=" text-slate-200">
-						<h2 className="text-3xl font-bold mb-6">App Comparison Tool</h2>
+						className="text-slate-200">
+						<h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center md:text-left">
+							App Comparison Tool
+						</h2>
 
 						{/* Select Section */}
-						<div className="flex bg-[#15232a] p-4 rounded-xl md:grid-cols-2 gap-6 mb-8">
-							<div className="w-1/2">
+						<div className="bg-[#15232a] p-4 rounded-xl flex flex-col md:flex-row gap-4 md:gap-6 mb-8">
+							{/* App 1 */}
+							<div className="w-full md:w-1/2">
 								<label className="text-sm text-slate-400 mb-2 block">
 									Select App 1
 								</label>
@@ -1125,7 +1134,8 @@ const Dashboard: React.FC = () => {
 								</Select>
 							</div>
 
-							<div className="w-1/2">
+							{/* App 2 */}
+							<div className="w-full md:w-1/2">
 								<label className="text-sm text-slate-400 mb-2 block">
 									Select App 2
 								</label>
@@ -1149,16 +1159,16 @@ const Dashboard: React.FC = () => {
 						{/* Comparison Table */}
 						{(selectedApp1 || selectedApp2) && (
 							<div className="overflow-x-auto border border-slate-700/50 rounded-xl bg-slate-800/60">
-								<table className="min-w-full divide-y bg-[#15232a] divide-slate-700/30">
+								<table className="min-w-full divide-y bg-[#15232a] divide-slate-700/30 text-sm sm:text-base">
 									<thead>
-										<tr className="text-slate-400 text-sm">
-											<th className="px-4 py-3 text-left font-medium">
+										<tr className="text-slate-400">
+											<th className="px-3 sm:px-4 py-3 text-left font-medium w-1/3">
 												Feature
 											</th>
-											<th className="px-4 py-3 text-left font-medium">
+											<th className="px-3 sm:px-4 py-3 text-left font-medium w-1/3">
 												{selectedApp1 ? selectedApp1.name : "-"}
 											</th>
-											<th className="px-4 py-3 text-left font-medium">
+											<th className="px-3 sm:px-4 py-3 text-left font-medium w-1/3">
 												{selectedApp2 ? selectedApp2.name : "-"}
 											</th>
 										</tr>
@@ -1167,22 +1177,22 @@ const Dashboard: React.FC = () => {
 									<tbody className="divide-y bg-[#192d37] divide-slate-700/30">
 										{/* Logos */}
 										<tr>
-											<td className="px-4 py-3 font-medium">Logo</td>
-											<td className="px-4 py-3">
+											<td className="px-3 sm:px-4 py-3 font-medium">Logo</td>
+											<td className="px-3 sm:px-4 py-3">
 												{selectedApp1 && (
 													<img
 														src={selectedApp1.logo}
 														alt={selectedApp1.name}
-														className="w-10 h-10 rounded-md"
+														className="w-8 h-8 sm:w-10 sm:h-10 rounded-md object-contain"
 													/>
 												)}
 											</td>
-											<td className="px-4 py-3">
+											<td className="px-3 sm:px-4 py-3">
 												{selectedApp2 && (
 													<img
 														src={selectedApp2.logo}
 														alt={selectedApp2.name}
-														className="w-10 h-10 rounded-md"
+														className="w-8 h-8 sm:w-10 sm:h-10 rounded-md object-contain"
 													/>
 												)}
 											</td>
@@ -1190,33 +1200,35 @@ const Dashboard: React.FC = () => {
 
 										{/* Vendor */}
 										<tr>
-											<td className="px-4 py-3 font-medium">Vendor</td>
-											<td className="px-4 py-3 text-slate-300">
+											<td className="px-3 sm:px-4 py-3 font-medium">Vendor</td>
+											<td className="px-3 sm:px-4 py-3 text-slate-300">
 												{selectedApp1?.vendor || "-"}
 											</td>
-											<td className="px-4 py-3 text-slate-300">
+											<td className="px-3 sm:px-4 py-3 text-slate-300">
 												{selectedApp2?.vendor || "-"}
 											</td>
 										</tr>
 
 										{/* Category */}
 										<tr>
-											<td className="px-4 py-3 font-medium">Category</td>
-											<td className="px-4 py-3 text-slate-300">
+											<td className="px-3 sm:px-4 py-3 font-medium">
+												Category
+											</td>
+											<td className="px-3 sm:px-4 py-3 text-slate-300">
 												{selectedApp1?.category || "-"}
 											</td>
-											<td className="px-4 py-3 text-slate-300">
+											<td className="px-3 sm:px-4 py-3 text-slate-300">
 												{selectedApp2?.category || "-"}
 											</td>
 										</tr>
 
 										{/* Pricing */}
 										<tr>
-											<td className="px-4 py-3 font-medium">Pricing</td>
-											<td className="px-4 py-3 text-slate-300">
+											<td className="px-3 sm:px-4 py-3 font-medium">Pricing</td>
+											<td className="px-3 sm:px-4 py-3 text-slate-300">
 												{selectedApp1?.pricing || "-"}
 											</td>
-											<td className="px-4 py-3 text-slate-300">
+											<td className="px-3 sm:px-4 py-3 text-slate-300">
 												{selectedApp2?.pricing || "-"}
 											</td>
 										</tr>
@@ -1224,15 +1236,17 @@ const Dashboard: React.FC = () => {
 										{/* Features */}
 										{Object.keys(apps[0].features).map((feature) => (
 											<tr key={feature}>
-												<td className="px-4 py-3 font-medium">{feature}</td>
-												<td className="px-4 py-3">
+												<td className="px-3 sm:px-4 py-3 font-medium capitalize">
+													{feature.replace(/_/g, " ")}
+												</td>
+												<td className="px-3 sm:px-4 py-3">
 													{selectedApp1?.features[feature] ? (
 														<Check className="text-emerald-500 w-4 h-4" />
 													) : (
 														<X className="text-red-500 w-4 h-4" />
 													)}
 												</td>
-												<td className="px-4 py-3">
+												<td className="px-3 sm:px-4 py-3">
 													{selectedApp2?.features[feature] ? (
 														<Check className="text-emerald-500 w-4 h-4" />
 													) : (
@@ -1241,13 +1255,19 @@ const Dashboard: React.FC = () => {
 												</td>
 											</tr>
 										))}
+
+										{/* Buy Buttons */}
 										<tr>
-											<td className="px-4 py-3 font-medium"></td>
-											<td className="px-4 py-3 text-slate-300">
-												<Button className="bg-blue-600">Buy Now</Button>
+											<td className="px-3 sm:px-4 py-3 font-medium"></td>
+											<td className="px-3 sm:px-4 py-3 text-slate-300">
+												<Button className="bg-blue-600 w-full sm:w-auto text-sm sm:text-base">
+													Buy Now
+												</Button>
 											</td>
-											<td className="px-4 py-3 text-slate-300">
-												<Button className="bg-blue-600">Buy Now</Button>
+											<td className="px-3 sm:px-4 py-3 text-slate-300">
+												<Button className="bg-blue-600 w-full sm:w-auto text-sm sm:text-base">
+													Buy Now
+												</Button>
 											</td>
 										</tr>
 									</tbody>
@@ -1255,21 +1275,22 @@ const Dashboard: React.FC = () => {
 							</div>
 						)}
 
-						{/* Empty state message */}
+						{/* Empty State */}
 						{!app1 && !app2 && (
-							<p className="text-slate-400 text-center mt-10">
+							<p className="text-slate-400 text-center mt-10 text-sm sm:text-base">
 								Please select apps to compare.
 							</p>
 						)}
 					</motion.div>
 				</div>
 			)}
+
 			{currView === "menu-items" && (
 				<div className="lg:ml-56  p-4 md:p-6 lg:p-8">
 					<div className="max-w-7xl mx-auto">
 						{/* Header */}
 						<div className="flex justify-between items-center mb-8">
-							<h2 className="text-3xl font-bold text-white">
+							<h2 className="md:text-3xl text-2xl font-bold text-white">
 								Mobile Menu Settings
 							</h2>
 							<Button className="bg-teal-600 hover:bg-teal-700 text-white">
@@ -1290,15 +1311,15 @@ const Dashboard: React.FC = () => {
 								return (
 									<div
 										key={item.id}
-										className="bg-[#132f4c] rounded-lg p-4 flex items-center gap-4 border border-[#1e4976]">
+										className="bg-[#132f4c] rounded-lg p-4 flex flex-col md:flex-row md:items-center gap-4 border border-[#1e4976]">
 										{/* Drag Handle */}
-										<div className="flex items-center gap-2">
+										<div className="flex items-center gap-2 shrink-0">
 											<GripVertical className="w-5 h-5 text-gray-500 cursor-move" />
 											<span className="text-gray-500 text-sm">{item.id}</span>
 										</div>
 
 										{/* Label Input */}
-										<div className="flex-1">
+										<div className="flex-1 w-full">
 											<label className="text-xs text-gray-400 block mb-1">
 												Label
 											</label>
@@ -1319,7 +1340,7 @@ const Dashboard: React.FC = () => {
 										</div>
 
 										{/* Icon Select */}
-										<div className="flex-1">
+										<div className="flex-1 w-full">
 											<label className="text-xs text-gray-400 block mb-1">
 												Icon
 											</label>
@@ -1372,7 +1393,7 @@ const Dashboard: React.FC = () => {
 										</div>
 
 										{/* Link Page Name */}
-										<div className="flex-1">
+										<div className="flex-1 w-full">
 											<label className="text-xs text-gray-400 block mb-1">
 												Link (Page Name)
 											</label>
@@ -1393,7 +1414,7 @@ const Dashboard: React.FC = () => {
 										</div>
 
 										{/* Visibility Checkboxes */}
-										<div className="flex items-center gap-4 bg-[#0a1929] border border-[#1e4976] rounded px-4 py-3 min-w-[180px]">
+										<div className="flex items-center justify-between md:justify-start flex-wrap gap-4 bg-[#0a1929] border border-[#1e4976] rounded px-4 py-3 min-w-[180px]">
 											<div className="flex items-center gap-2">
 												<Checkbox
 													id={`auth-${item.id}`}
@@ -1427,11 +1448,13 @@ const Dashboard: React.FC = () => {
 										</div>
 
 										{/* Visible Button */}
-										<Button
-											variant="outline"
-											className="bg-transparent border-green-600 text-green-500 hover:bg-green-600/10 min-w-[80px]">
-											Visible
-										</Button>
+										<div className="shrink-0">
+											<Button
+												variant="outline"
+												className="w-full bg-transparent border-green-600 text-green-500 hover:bg-green-600/10">
+												Visible
+											</Button>
+										</div>
 									</div>
 								);
 							})}
