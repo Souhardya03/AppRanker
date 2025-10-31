@@ -102,7 +102,7 @@ const Navbar = () => {
 	const isActive = (path: string) => location.pathname === path;
 
 	return (
-		<nav className="flex fixed w-full z-30 p-6 items-center justify-between">
+		<nav className="flex fixed w-full z-[999] p-6 items-center justify-between">
 			<div className="flex items-center gap-4">
 				{/* Logo */}
 				<Link

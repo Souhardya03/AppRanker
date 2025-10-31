@@ -99,8 +99,8 @@ const Home = () => {
 	}, [api]);
 	return (
 		<div
-			className={`flex flex-col min-h-[88vh] gap-2  md:gap-4 items-center justify-center px-4 ${
-				selectedData ? "" : "pt-24"
+			className={`flex flex-col min-h-[88vh]   md:gap-4 items-center justify-center px-4 ${
+				selectedData ? "" : "pt-24 gap-4"
 			}`}>
 			<motion.div
 				initial={{ y: 0, scale: 1 }}
