@@ -79,7 +79,7 @@ const Compare: React.FC = () => {
 	};
 
 	return (
-		<div className="mt-8">
+		<div className="pt-24">
 			<motion.div
 				className="flex items-center justify-center"
 				initial="hidden"
@@ -96,7 +96,7 @@ const Compare: React.FC = () => {
 			</motion.div>
 			<div className="flex items-center justify-center">
 				<motion.div
-					className="flex items-center justify-center w-full max-w-7xl gap-6 mt-14"
+					className="flex items-center justify-center w-full max-w-6xl gap-6 mt-14"
 					variants={containerVariants}
 					initial="hidden"
 					animate="visible"

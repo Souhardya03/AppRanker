@@ -106,7 +106,7 @@ const Home = () => {
 				initial={{ opacity: 1, y: 0 }}
 				animate={
 					seletedId
-						? { opacity: 1, y: -20, scale: 0.85 }
+						? { opacity: 1, y: -20, scale: 0.6 }
 						: { opacity: 1, y: 0, scale: 1 }
 				}
 				transition={{ duration: 0.8, ease: "easeOut" }}
@@ -114,7 +114,7 @@ const Home = () => {
 				style={{
 					position: seletedId ? "fixed" : "static",
 					top: seletedId ? 40 : "auto",
-					left: seletedId ? "35%" : "auto",
+					left: seletedId ? "33%" : "auto",
 					zIndex: seletedId ? 50 : "auto",
 				}}>
 				<PlaceholdersAndVanishInput

@@ -197,21 +197,21 @@ const Dashboard: React.FC = () => {
 	const appData = [
 		{
 			id: 1,
-			icon: "/api/placeholder/40/40",
+			icon: "https://static.vecteezy.com/system/resources/thumbnails/008/771/883/small/abstract-logo-for-studio-design-with-creative-modern-concept-vector.jpg",
 			name: "Design Studio",
 			vendor: "Creative Labs",
 			submittedOn: "22 Oct, 2025",
 		},
 		{
 			id: 2,
-			icon: "/api/placeholder/40/40",
+			icon: "https://static.vecteezy.com/system/resources/previews/014/583/258/non_2x/filled-design-icon-of-bank-vault-security-vector.jpg",
 			name: "SecureVault VPN",
 			vendor: "Privacy Solutions",
 			submittedOn: "22 Oct, 2025",
 		},
 		{
 			id: 3,
-			icon: "/api/placeholder/40/40",
+			icon: "https://play-lh.googleusercontent.com/wUZp2gNvX3mLkmzhq2FyTVSwRdtfWC-Fcx0lt8Xo1TxufvThvbAxgty7WpfARX6tLMxG",
 			name: "TaskMaster Pro",
 			vendor: "Productivity Co",
 			submittedOn: "22 Oct, 2025",
@@ -512,7 +512,8 @@ const Dashboard: React.FC = () => {
 					<div
 						onClick={() => setCurrView("menu-items")}
 						className="space-y-1">
-						<div className={`flex items-center space-x-3 hover:text-white hover:bg-slate-800/30 cursor-pointer px-3 py-2 ${
+						<div
+							className={`flex items-center space-x-3 hover:text-white hover:bg-slate-800/30 cursor-pointer px-3 py-2 ${
 								currView === "menu-items"
 									? "bg-slate-800/50 text-white"
 									: "text-slate-400"
