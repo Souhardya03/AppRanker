@@ -1,11 +1,19 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { Bell, Plus, User, WandSparkles } from "lucide-react";
+import { Bell, Plus, User, WandSparkles, LogOut, Settings, Trophy } from "lucide-react";
 import { MovingButton } from "./ui/moving-border";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { CountingNumber } from "./ui/shadcn-io/counting-number";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 const Navbar = () => {
 	const lineRef = useRef<SVGRectElement | null>(null);
 	const exploreBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -159,7 +167,7 @@ const Navbar = () => {
 					</Button>
 				</div>
 			</div>
-			<div className="flex  items-center  rounded-full gap-2">
+			<div className="flex items-center rounded-full gap-2">
 				<Link to={"/dashboard"} className="flex items-center gap-2 bg-teal-900/30 border border-teal-700/50 rounded-full px-4 py-1.5">
 					<span className="text-teal-400 text-2xl font-bold">
 						<CountingNumber
@@ -176,10 +184,56 @@ const Navbar = () => {
 					<Bell className="w-5 h-5 text-teal-300" />
 				</div>
 
-				{/* User Icon */}
-				<div className="bg-teal-500 rounded-full p-2.5">
-					<User className="w-5 h-5 text-white" />
-				</div>
+				{/* User Profile Dropdown */}
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<button className="bg-teal-500 rounded-full p-2.5 hover:bg-teal-600 transition-colors focus:outline-none">
+							<User className="w-5 h-5 text-white" />
+						</button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent 
+						align="end" 
+						className="w-56 mt-2 bg-[#142c3a] border-slate-700 text-slate-200"
+					>
+						<div className="px-3 py-2 border-b border-slate-700">
+							<p className="text-xs text-slate-400">contact</p>
+							<p className="text-sm text-teal-400">contact@appraiser.io</p>
+						</div>
+						
+						<DropdownMenuItem asChild className="cursor-pointer focus:text-white transition-colors hover:bg-[#163d53] focus:bg-[#163d53]">
+							<Link to="/profile" className="flex items-center  gap-2 py-2">
+								<User className="w-4 h-4 text-teal-400" />
+								<span>Profile</span>
+							</Link>
+						</DropdownMenuItem>
+
+						<DropdownMenuItem asChild className="cursor-pointer focus:text-white transition-colors hover:bg-[#163d53] focus:bg-[#163d53]">
+							<Link to="/score" className="flex items-center  gap-2 py-2">
+								<Trophy className="w-4 h-4 text-teal-400" />
+								<span>Your Score</span>
+							</Link>
+						</DropdownMenuItem>
+
+						<DropdownMenuItem asChild className="cursor-pointer focus:text-white transition-colors hover:bg-[#163d53] focus:bg-[#163d53]">
+							<Link to="/admin" className="flex items-center hover:bg-[#163d53] focus:bg-[#163d53] gap-2 py-2">
+								<Settings className="w-4 h-4 text-teal-400" />
+								<span>Admin Panel</span>
+							</Link>
+						</DropdownMenuItem>
+
+						<DropdownMenuSeparator className="bg-slate-700" />
+
+						<DropdownMenuItem 
+							className="cursor-pointer hover:bg-red-800/40 hover:text-white focus:text-white transition-colors focus:bg-red-800/40  text-red-400"
+							onClick={() => {
+								console.log("Logout clicked");
+							}}
+						>
+							<LogOut className="w-4 h-4 text-red-400" />
+							<span>Logout</span>
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</div>
 		</nav>
 	);
