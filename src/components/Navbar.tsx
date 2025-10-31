@@ -170,7 +170,7 @@ const Navbar = () => {
 							},
 						}}
 						className="rounded-full md:block hidden">
-						<Button className="h-12 w-28 text-lg relative overflow-hidden group">
+						<Button className="h-12 rounded-full w-28 text-lg relative overflow-hidden group">
 							<motion.span
 								className="absolute inset-0 bg-linear-to-r from-blue-400/20 via-green-400/20 to-blue-400/20"
 								initial={{ x: "-100%" }}
@@ -183,14 +183,14 @@ const Navbar = () => {
 				</div>
 
 				{/* Plus Button */}
-				<div className="md:inline-block hidden">
-					<Button className="h-12 w-12 transition-transform duration-200">
+				<Link to={"/about"} className="md:inline-block hidden">
+					<Button className="h-12 w-12 rounded-full transition-transform duration-200">
 						<Plus
 							color="#32ea6c"
 							size={24}
 						/>
 					</Button>
-				</div>
+				</Link>
 			</div>
 			<div className="md:flex hidden items-center rounded-full gap-2">
 				<Link

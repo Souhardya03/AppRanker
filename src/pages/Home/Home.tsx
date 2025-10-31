@@ -8,6 +8,12 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Plus, WandSparkles, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { MovingButton } from "@/components/ui/moving-border";
+import {
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+} from "@/components/ui/carousel";
+import { type CarouselApi } from "@/components/ui/carousel";
 
 const Home = () => {
 	const placeholders = [
@@ -80,8 +86,22 @@ const Home = () => {
 	const [showGallery, setShowGallery] = useState(false);
 	const [selectedImageIdx, setSelectedImageIdx] = useState(0);
 	const navigate = useNavigate();
+	const [api, setApi] = useState<CarouselApi>();
+	const [current, setCurrent] = useState(0);
+	useEffect(() => {
+		if (!api) {
+			return;
+		}
+		setCurrent(api.selectedScrollSnap() + 1);
+		api.on("select", () => {
+			setCurrent(api.selectedScrollSnap() + 1);
+		});
+	}, [api]);
 	return (
-		<div className="flex flex-col min-h-[88vh]  gap-4 items-center justify-center px-4 pt-24">
+		<div
+			className={`flex flex-col min-h-[88vh] gap-2  md:gap-4 items-center justify-center px-4 ${
+				selectedData ? "" : "pt-24"
+			}`}>
 			<motion.div
 				initial={{ y: 0, scale: 1 }}
 				animate={seletedId ? { y: -40, scale: 0.95 } : { y: 0, scale: 1 }}
@@ -113,6 +133,7 @@ const Home = () => {
 				transition={{ duration: 0.8, ease: "easeOut" }}
 				className="w-full max-w-3xl "
 				style={{
+					display: seletedId ? "none" : "block",
 					position: seletedId ? "fixed" : "static",
 					top: seletedId ? 40 : "auto",
 					left: seletedId ? "33%" : "auto",
@@ -125,7 +146,7 @@ const Home = () => {
 					searching={searching}
 				/>
 			</motion.div>
-			<div className="flex gap-3 flex-row-reverse">
+			<motion.div className="flex w-full items-center justify-center gap-3 flex-row-reverse">
 				<Link
 					to="/explore"
 					className={`${
@@ -137,21 +158,23 @@ const Home = () => {
 						Explore <WandSparkles size={18} />
 					</MovingButton>
 				</Link>
-				<div
+				<Link
+					to={"/about"}
 					className={`${
 						results.length === 0 ? "block" : "hidden"
 					} mt-8 md:hidden`}>
-					<Button className="h-full  transition-transform text-sm duration-200">
+					<Button className="py-6.5 rounded-full flex items-center w-full transition-transform text-sm px-4 duration-200">
 						<Plus
 							color="#32ea6c"
-							size={24}
-						/> Add your app
+							size={20}
+						/>{" "}
+						Add your app
 					</Button>
-				</div>
-			</div>
+				</Link>
+			</motion.div>
 
 			<motion.div
-				className="flex gap-4 mt-2 justify-center flex-wrap"
+				className="md:flex hidden gap-4 mt-2 justify-center flex-wrap"
 				initial="hidden"
 				animate="visible"
 				variants={{
@@ -322,6 +345,185 @@ const Home = () => {
 				})}
 			</motion.div>
 
+			<Carousel
+				setApi={setApi}
+				className="w-full max-w-xs">
+				<CarouselContent>
+					{results.slice(3).map((item, idx) => {
+						const isHovered = hoveredIdx === idx;
+						const screenshots = item.screenshots || [
+							item.logo || "/images/default.png",
+						];
+						const currentImg = screenshots[currentImageIdx[idx] || 0];
+						return (
+							<CarouselItem key={idx}>
+								<AnimatePresence>
+									<motion.div
+										onClick={() => setSelectedId(item.id)}
+										key={idx}
+										className="relative bg-[#101010] border border-gray-700 rounded-3xl p-2 text-white  overflow-hidden cursor-pointer"
+										initial={{ opacity: 0, y: 30 }}
+										animate={
+											seletedId
+												? { opacity: 0, scale: 0, display: "none" }
+												: {
+														opacity: 1,
+														scale: 1,
+														y: 0,
+														width: isHovered
+															? 460
+															: hoveredIdx !== null
+															? 300
+															: 320,
+														boxShadow: isHovered
+															? "0 0 35px rgba(0, 119, 255, 0.5)"
+															: "",
+												  }
+										}
+										transition={{
+											opacity: {
+												duration: 0.8,
+												ease: "easeOut",
+												delay: idx * 0.1,
+											},
+											y: { duration: 0.3, ease: "easeOut" },
+											width: { duration: 0.3, ease: "easeOut" },
+											boxShadow: { duration: 0.3 },
+											scale: { duration: 0.8, ease: "easeOut" },
+										}}
+										onHoverStart={() => setHoveredIdx(idx)}
+										onHoverEnd={() => setHoveredIdx(null)}>
+										{/* Rest of the component remains the same */}
+										{item.bestRating && (
+											<div className="absolute border -top-3 left-3 bg-linear-to-r from-orange-600 to-red-600 text-xs px-2 py-1 rounded-full flex items-center gap-1">
+												<span>⭐</span> Best Rating
+											</div>
+										)}
+
+										<div className="relative shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full h-40 rounded-xl bg-black overflow-hidden">
+											<AnimatePresence mode="wait">
+												<motion.img
+													key={currentImg}
+													src={currentImg}
+													alt={item.name}
+													className="absolute shadow-[0_0_20px_rgba(255,255,255,0.1)] rounded-xl inset-0 w-full h-full object-cover"
+													initial={{ opacity: 0, scale: 0.95 }}
+													animate={{ opacity: 1, scale: 1 }}
+													exit={{ opacity: 0, scale: 0.95 }}
+													transition={{ duration: 0.5 }}
+													whileHover={{ scale: 1.05 }}
+												/>
+											</AnimatePresence>
+										</div>
+
+										<div className="flex p-2 justify-between items-center">
+											<div className="flex gap-3 items-center justify-center">
+												<img
+													src={item.logo}
+													alt=""
+													width={36}
+													height={24}
+												/>
+												<div>
+													<div className="mb-2">
+														<p className="font-semibold">{item.name}</p>
+														<div className=" flex items-center gap-2 text-white/60">
+															<div className="flex items-center gap-1">
+																{Array.from({ length: 5 }).map((_, i) => {
+																	const pos = i + 1;
+																	const full = item.rating >= pos;
+																	const half =
+																		!full && item.rating >= pos - 0.5;
+																	const gradId = `halfGrad-${i}`;
+																	return (
+																		<span
+																			key={i}
+																			className="w-3 h-3 inline-block">
+																			{full ? (
+																				<svg
+																					viewBox="0 0 24 24"
+																					className="w-3 h-3 text-yellow-400"
+																					fill="currentColor"
+																					aria-hidden>
+																					<path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.168L12 18.896l-7.336 3.866 1.402-8.168L.132 9.21l8.2-1.192L12 .587z" />
+																				</svg>
+																			) : half ? (
+																				<svg
+																					viewBox="0 0 24 24"
+																					className="w-3 h-3 text-yellow-400"
+																					aria-hidden>
+																					<defs>
+																						<linearGradient id={gradId}>
+																							<stop
+																								offset="50%"
+																								stopColor="currentColor"
+																							/>
+																							<stop
+																								offset="50%"
+																								stopColor="transparent"
+																							/>
+																						</linearGradient>
+																					</defs>
+																					<path
+																						d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.168L12 18.896l-7.336 3.866 1.402-8.168L.132 9.21l8.2-1.192L12 .587z"
+																						fill={`url(#${gradId})`}
+																						stroke="currentColor"
+																						strokeWidth="0.5"
+																					/>
+																				</svg>
+																			) : (
+																				<svg
+																					viewBox="0 0 24 24"
+																					className="w-3 h-3 text-gray-600"
+																					fill="none"
+																					stroke="currentColor"
+																					aria-hidden>
+																					<path
+																						d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.168L12 18.896l-7.336 3.866 1.402-8.168L.132 9.21l8.2-1.192L12 .587z"
+																						strokeWidth="0.8"
+																					/>
+																				</svg>
+																			)}
+																		</span>
+																	);
+																})}
+															</div>
+														</div>
+													</div>
+													<p className="text-sm line-clamp-1 text-gray-400">
+														{item.short_description || "AI App"}
+													</p>
+												</div>
+											</div>
+											<div className="text-right">
+												<p className="text-gray-400 line-through text-sm">
+													{item.pricing[1]?.price || "10"}
+												</p>
+												<div className="flex items-center justify-end">
+													<p className="text-green-400 w-9 h-9 border-gray-600 flex items-center justify-center rounded-full border font-semibold">
+														{item.pricing[0]?.price || "0"}
+													</p>
+												</div>
+											</div>
+										</div>
+									</motion.div>
+								</AnimatePresence>
+							</CarouselItem>
+						);
+					})}
+				</CarouselContent>
+			</Carousel>
+			{!selectedData && results.length > 0 && (
+				<div className="flex md:hidden items-center gap-2">
+					{/* Progress Bar */}
+					<div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden">
+						<div
+							className="h-full bg-green-500 rounded-full transition-all duration-300"
+							style={{ width: `${(current / results.length) * 100}%` }}></div>
+					</div>
+				</div>
+			)}
+
 			{results.length > 0 && (
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
@@ -343,7 +545,7 @@ const Home = () => {
 			<AnimatePresence mode="wait">
 				{selectedData && (
 					<motion.div
-						className="fixed h-[78vh] overflow-auto top-24 w-full max-w-lg  left-1/2 transform -translate-x-1/2  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
+						className="md:fixed md:h-[78vh] m-3 overflow-auto top-24 w-full md:max-w-lg  md:left-1/2 md:transform md:-translate-x-1/2  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
 						initial={{ opacity: 0, y: 110 }}
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: 110 }}
@@ -467,7 +669,7 @@ const Home = () => {
 			<AnimatePresence>
 				{moreOpen && selectedData && (
 					<motion.div
-						className="fixed h-[78vh] overflow-auto bottom-0 w-full max-w-[30%] right-0 top-24 -translate-x-10 transform  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
+						className="fixed h-[78vh] overflow-auto bottom-0 w-full md:max-w-[30%] max-w-[90%] right-0 top-24 md:-translate-x-10 -translate-x-4 transform  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
 						initial={{ opacity: 0, x: 110 }}
 						animate={{ opacity: 1, x: 0 }}
 						exit={{ opacity: 0, x: 800 }}
@@ -534,7 +736,7 @@ const Home = () => {
 			<AnimatePresence>
 				{showGallery && selectedData && (
 					<motion.div
-						className="fixed h-[78vh] overflow-auto bottom-0 w-full max-w-[30%] left-0 top-24 translate-x-10 transform  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
+						className="fixed h-[78vh] overflow-auto bottom-0 w-full md:max-w-[30%] max-w-[90%] left-0 top-24 md:translate-x-10 translate-x-4 transform  bg-[#0b0b0b] border border-gray-700 rounded-3xl p-4 text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] z-50"
 						initial={{ opacity: 0, x: -110 }}
 						animate={{ opacity: 1, x: 0 }}
 						exit={{ opacity: 0, x: -800 }}
