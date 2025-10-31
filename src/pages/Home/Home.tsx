@@ -151,7 +151,7 @@ const Home = () => {
 					to="/explore"
 					className={`${
 						results.length === 0 ? "block" : "hidden"
-					} mt-8 md:hidden`}>
+					} mt-8 lg:hidden`}>
 					<MovingButton
 						borderRadius="1.9rem"
 						className="bg-[#131213]  cursor-pointer flex items-center justify-center gap-4 text-lg text-white border-slate-800">
@@ -162,7 +162,7 @@ const Home = () => {
 					to={"/about"}
 					className={`${
 						results.length === 0 ? "block" : "hidden"
-					} mt-8 md:hidden`}>
+					} mt-8 lg:hidden`}>
 					<Button className="py-6.5 rounded-full flex items-center w-full transition-transform text-sm px-4 duration-200">
 						<Plus
 							color="#32ea6c"
@@ -347,10 +347,9 @@ const Home = () => {
 
 			<Carousel
 				setApi={setApi}
-				className="w-full max-w-xs">
+				className="w-full max-w-xs md:hidden block">
 				<CarouselContent>
 					{results.slice(3).map((item, idx) => {
-						const isHovered = hoveredIdx === idx;
 						const screenshots = item.screenshots || [
 							item.logo || "/images/default.png",
 						];
@@ -370,14 +369,8 @@ const Home = () => {
 														opacity: 1,
 														scale: 1,
 														y: 0,
-														width: isHovered
-															? 460
-															: hoveredIdx !== null
-															? 300
-															: 320,
-														boxShadow: isHovered
-															? "0 0 35px rgba(0, 119, 255, 0.5)"
-															: "",
+														
+														
 												  }
 										}
 										transition={{

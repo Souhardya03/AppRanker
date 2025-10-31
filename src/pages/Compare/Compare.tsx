@@ -9,12 +9,14 @@ import {
 	Tag,
 } from "lucide-react";
 import { motion, type Variants, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Compare: React.FC = () => {
 	const selected = data[2];
 	const percentage = (selected.rating / 5) * 100;
-	const [currentImageIndex, setCurrentImageIndex] = useState<number[]>([0, 0, 0]);
+	const [currentImageIndex, setCurrentImageIndex] = useState<number[]>([
+		0, 0, 0,
+	]);
 
 	const handlePrevImage = (cardIndex: number) => {
 		setCurrentImageIndex((prev) => {
@@ -78,15 +80,26 @@ const Compare: React.FC = () => {
 		},
 	};
 
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (scrollContainerRef.current) {
+			const container = scrollContainerRef.current;
+			const cardWidth = 320; // or 350 for md screens
+			const gap = 24; // gap-6 = 24px
+			const scrollPosition = cardWidth + gap; // Scroll to show second card
+
+			container.scrollLeft = scrollPosition;
+		}
+	}, []);
+
 	return (
 		<div className="pt-24">
 			<motion.div
 				className="flex items-center justify-center"
 				initial="hidden"
 				animate="visible"
-				variants={headingVariants}
-			>
-				<h2 className="text-4xl md:text-4xl text-center lg:text-5xl font-semibold">
+				variants={headingVariants}>
+				<h2 className="text-3xl md:text-4xl text-center lg:text-5xl font-semibold">
 					<span className="text-white">Smart Comparisons for</span>
 					<br />
 					<span className="bg-linear-to-r from-blue-600 via-[#189597] to-green-400 bg-clip-text text-transparent">
@@ -96,35 +109,36 @@ const Compare: React.FC = () => {
 			</motion.div>
 			<div className="flex items-center justify-center">
 				<motion.div
-					className="flex items-center justify-center w-full max-w-6xl gap-6 mt-14"
+					ref={scrollContainerRef}
+					className="flex gap-6 py-2 mt-14 overflow-x-auto snap-x snap-mandatory scroll-smooth px-4"
 					variants={containerVariants}
 					initial="hidden"
 					animate="visible"
-				>
+					style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
 					{[0, 1, 2].map((index: number) => (
 						<motion.div
 							key={index}
-							className="bg-[#131313] rounded-3xl p-4"
+							className="bg-[#131313] rounded-3xl p-4 snap-center shrink-0 w-[320px] md:w-[350px]"
 							variants={cardVariants}
 							whileHover={{
 								y: -8,
 								transition: { duration: 0.3 },
-							}}
-						>
+							}}>
 							<motion.div
 								className="flex items-center bg-black gap-2 p-2 px-3 border border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)] font-medium text-green-300 rounded-full w-fit text-sm"
 								whileHover={{ scale: 1.05 }}
-								transition={{ duration: 0.2 }}
-							>
-								<Tag size={14} className="rotate-90" />
+								transition={{ duration: 0.2 }}>
+								<Tag
+									size={14}
+									className="rotate-90"
+								/>
 								Editors Choice
 							</motion.div>
 							<motion.div
 								className="flex mt-6 gap-2 items-center"
 								initial={{ opacity: 0, x: -20 }}
 								animate={{ opacity: 1, x: 0 }}
-								transition={{ delay: 0.3 + index * 0.2 }}
-							>
+								transition={{ delay: 0.3 + index * 0.2 }}>
 								<img
 									src={selected.logo}
 									alt=""
@@ -158,8 +172,7 @@ const Compare: React.FC = () => {
 											backgroundColor: "rgba(255,255,255,0.1)",
 										}}
 										whileTap={{ scale: 0.95 }}
-										onClick={() => handlePrevImage(index)}
-									>
+										onClick={() => handlePrevImage(index)}>
 										<ChevronLeft size={16} />
 									</motion.div>
 									<motion.div
@@ -169,8 +182,7 @@ const Compare: React.FC = () => {
 											backgroundColor: "rgba(255,255,255,0.1)",
 										}}
 										whileTap={{ scale: 0.95 }}
-										onClick={() => handleNextImage(index)}
-									>
+										onClick={() => handleNextImage(index)}>
 										<ChevronRight size={16} />
 									</motion.div>
 									<div className="flex gap-1 ml-2">
@@ -199,30 +211,33 @@ const Compare: React.FC = () => {
 										delay: 0.5 + index * 0.2,
 										type: "spring",
 										stiffness: 200,
-									}}
-								>
+									}}>
 									{selected.pricing[0].price}
 								</motion.p>
 							</div>
 							<div>
 								<h2 className="text-lg">Key Features</h2>
 								<ul>
-									{selected.features.map((feature: string, featureIndex: number) => (
-										<motion.li
-											key={featureIndex}
-											className="flex items-center gap-2 m-2"
-											initial={{ opacity: 0, x: -10 }}
-											animate={{ opacity: 1, x: 0 }}
-											transition={{
-												delay: 0.6 + index * 0.2 + featureIndex * 0.05,
-											}}
-										>
-											<span className="w-3 h-3 flex items-center justify-center bg-green-400 rounded-full shrink-0">
-												<Check size={10} color="black" />
-											</span>
-											<span className="text-sm text-white/80">{feature}</span>
-										</motion.li>
-									))}
+									{selected.features.map(
+										(feature: string, featureIndex: number) => (
+											<motion.li
+												key={featureIndex}
+												className="flex items-center gap-2 m-2"
+												initial={{ opacity: 0, x: -10 }}
+												animate={{ opacity: 1, x: 0 }}
+												transition={{
+													delay: 0.6 + index * 0.2 + featureIndex * 0.05,
+												}}>
+												<span className="w-3 h-3 flex items-center justify-center bg-green-400 rounded-full shrink-0">
+													<Check
+														size={10}
+														color="black"
+													/>
+												</span>
+												<span className="text-sm text-white/80">{feature}</span>
+											</motion.li>
+										)
+									)}
 								</ul>
 							</div>
 							<div className="my-8">
@@ -245,8 +260,7 @@ const Compare: React.FC = () => {
 											whileHover={{
 												scale: 1.05,
 												borderColor: "rgba(59, 130, 246, 0.5)",
-											}}
-										>
+											}}>
 											<span className="text-xs text-blue-600 font-semibold">
 												{feature}
 											</span>
@@ -264,20 +278,24 @@ const Compare: React.FC = () => {
 									<motion.div
 										className="flex flex-col gap-1 items-center"
 										whileHover={{ scale: 1.1 }}
-										transition={{ duration: 0.2 }}
-									>
+										transition={{ duration: 0.2 }}>
 										<div className="border border-white/20 rounded-md p-2">
-											<Globe size={14} color="blue" />
+											<Globe
+												size={14}
+												color="blue"
+											/>
 										</div>
 										<p className="text-xs text-white/50">Web</p>
 									</motion.div>
 									<motion.div
 										className="flex flex-col gap-1 items-center"
 										whileHover={{ scale: 1.1 }}
-										transition={{ duration: 0.2 }}
-									>
+										transition={{ duration: 0.2 }}>
 										<div className="border border-white/20 rounded-md p-2">
-											<LaptopMinimal size={14} color="green" />
+											<LaptopMinimal
+												size={14}
+												color="green"
+											/>
 										</div>
 										<p className="text-xs text-white/50">Desktop</p>
 									</motion.div>
@@ -308,8 +326,7 @@ const Compare: React.FC = () => {
 							<motion.div
 								className="mt-8"
 								whileHover={{ scale: 1.02 }}
-								whileTap={{ scale: 0.98 }}
-							>
+								whileTap={{ scale: 0.98 }}>
 								<Button className="w-full bg-blue-500 hover:bg-blue-600 transition-colors text-white font-semibold py-2 px-4 rounded-lg">
 									Buy Now
 								</Button>

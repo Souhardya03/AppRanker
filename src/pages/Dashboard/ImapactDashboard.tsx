@@ -38,15 +38,15 @@ export default function ImpactDashboard() {
 			className="px-6 pt-24 overflow-hidden">
 			{/* Header */}
 			<div className="flex items-center justify-between mb-8">
-				<h1 className="text-2xl font-bold text-white text-center flex-1">
+				<h2 className="md:text-3xl text-2xl font-bold text-white text-center flex-1">
 					Your Impact Dashboard
-				</h1>
+				</h2>
 			</div>
 
 			{/* Score Cards Grid */}
 			<motion.div
 				variants={containerVariants}
-				className="grid grid-cols-3 gap-2 max-w-7xl mx-auto mb-3">
+				className="grid md:grid-cols-3 grid-cols-1 gap-2 max-w-7xl mx-auto mb-3">
 				{/* Discovery Score */}
 				<motion.div
 					variants={cardVariants}
@@ -160,7 +160,7 @@ export default function ImpactDashboard() {
 			{/* Rewards Section */}
 			<motion.div
 				variants={containerVariants}
-				className="grid grid-cols-4 gap-2 max-w-7xl mx-auto">
+				className="grid md:grid-cols-2 lg:grid-cols-4 gap-2 max-w-7xl mx-auto">
 				{[
 					{
 						title: "Engagement Rewards",

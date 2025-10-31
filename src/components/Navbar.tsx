@@ -102,12 +102,12 @@ const Navbar = () => {
 	const isActive = (path: string) => location.pathname === path;
 
 	return (
-		<nav className="flex fixed w-full z-[999] p-6 items-center justify-between">
+		<nav className="flex fixed w-full z-999 p-6 items-center justify-between">
 			<div className="flex items-center gap-4">
 				{/* Logo */}
 				<Link
 					to={"/"}
-					className="md:w-48 w-32">
+					className="md:w-48 w-48">
 					<img
 						src="/images/logo.png"
 						alt=""
@@ -117,7 +117,7 @@ const Navbar = () => {
 				{/* Explore Button */}
 				<Link
 					to="/explore"
-					className="md:block hidden">
+					className="lg:block hidden">
 					<MovingButton
 						borderRadius="1.9rem"
 						className="bg-[#131213]  cursor-pointer flex items-center justify-center gap-4 text-lg text-white border-slate-800">
@@ -169,7 +169,7 @@ const Navbar = () => {
 								transition: { duration: 0.1 },
 							},
 						}}
-						className="rounded-full md:block hidden">
+						className="rounded-full lg:block hidden">
 						<Button className="h-12 rounded-full w-28 text-lg relative overflow-hidden group">
 							<motion.span
 								className="absolute inset-0 bg-linear-to-r from-blue-400/20 via-green-400/20 to-blue-400/20"
