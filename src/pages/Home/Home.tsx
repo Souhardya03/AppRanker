@@ -5,8 +5,9 @@ import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-van
 import { motion, AnimatePresence } from "framer-motion";
 import { data } from "@/data";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Plus, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ChevronLeft, Plus, WandSparkles, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { MovingButton } from "@/components/ui/moving-border";
 
 const Home = () => {
 	const placeholders = [
@@ -85,14 +86,14 @@ const Home = () => {
 				initial={{ y: 0, scale: 1 }}
 				animate={seletedId ? { y: -40, scale: 0.95 } : { y: 0, scale: 1 }}
 				exit={{ y: 0 }}
-				className=""
+				className=" flex items-center flex-col gap-2 "
 				transition={{ duration: 0.8, ease: "easeOut" }}>
 				<img
 					src="/images/logo.png"
 					alt="Logo"
 					className={` ${
 						seletedId ? "hidden" : "block"
-					} transition-all duration-300`}
+					} transition-all w-64 duration-300`}
 				/>
 				<p
 					className={`text-gray-400 text-center text-sm  ${
@@ -124,6 +125,30 @@ const Home = () => {
 					searching={searching}
 				/>
 			</motion.div>
+			<div className="flex gap-3 flex-row-reverse">
+				<Link
+					to="/explore"
+					className={`${
+						results.length === 0 ? "block" : "hidden"
+					} mt-8 md:hidden`}>
+					<MovingButton
+						borderRadius="1.9rem"
+						className="bg-[#131213]  cursor-pointer flex items-center justify-center gap-4 text-lg text-white border-slate-800">
+						Explore <WandSparkles size={18} />
+					</MovingButton>
+				</Link>
+				<div
+					className={`${
+						results.length === 0 ? "block" : "hidden"
+					} mt-8 md:hidden`}>
+					<Button className="h-full  transition-transform text-sm duration-200">
+						<Plus
+							color="#32ea6c"
+							size={24}
+						/> Add your app
+					</Button>
+				</div>
+			</div>
 
 			<motion.div
 				className="flex gap-4 mt-2 justify-center flex-wrap"
@@ -304,7 +329,7 @@ const Home = () => {
 					exit={{ y: 120, opacity: 0 }}
 					transition={{ duration: 0.4, ease: "easeOut" }}>
 					<motion.button
-					onClick={()=>navigate('/compare')}
+						onClick={() => navigate("/compare")}
 						whileHover={{ scale: 1.05 }}
 						className="h-12 bg-[#155dfc] cursor-pointer hover:bg-[#0d51e2] mt-4 px-6 rounded-lg text-white font-semibold">
 						Compare These Options
