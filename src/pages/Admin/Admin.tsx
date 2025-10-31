@@ -512,7 +512,11 @@ const Dashboard: React.FC = () => {
 					<div
 						onClick={() => setCurrView("menu-items")}
 						className="space-y-1">
-						<div className="flex items-center space-x-3 px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800/30 rounded-lg text-sm cursor-pointer">
+						<div className={`flex items-center space-x-3 hover:text-white hover:bg-slate-800/30 cursor-pointer px-3 py-2 ${
+								currView === "menu-items"
+									? "bg-slate-800/50 text-white"
+									: "text-slate-400"
+							}  rounded-lg text-sm`}>
 							<Menu size={16} />
 							<span>Menu Settings</span>
 						</div>
